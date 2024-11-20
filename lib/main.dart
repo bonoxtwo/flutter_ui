@@ -21,13 +21,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: ListenableBuilder( // change notifier의 notice를 받아옴
+      home: ListenableBuilder(
+        // change notifier의 notice를 받아옴
         listenable: viewModel,
         builder: (context, widget) {
-          return RecipeListScreen(
-            recipes: viewModel.recipes,
-            isLoading: viewModel.isLoading,
-          );
+          return RecipeListScreen(state: viewModel.state);
         },
       ),
     );
