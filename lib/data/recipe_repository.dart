@@ -1,11 +1,33 @@
+import 'dart:convert';
+
 import 'model/recipe_models.dart';
+import 'package:http/http.dart' as http;
 
 Future<void> main() async {
-  final repository = RecipeRepository();
+  final repository = RecipeRepositoryImpl();
   final recipes = await repository.getRecipes();
   print(recipes);
 }
-class RecipeRepository {
+
+abstract interface class RecipeRepository {
+  Future<List<Recipe>> getRecipes();
+}
+
+class RecipeRepositoryImpl implements RecipeRepository{
+  @override
+  Future<List<Recipe>> getRecipes() async{
+    final response = await http.get(Uri.parse('https://raw.githubusercontent.com/junsuk5/mock_json/refs/heads/main/recipe/recipes.json'));
+    print(response.statusCode);
+    print(response.body);
+
+    final recipeData = jsonDecode(response.body);
+    final recipesJsonList = recipeData['recipes'] as List;
+    return recipesJsonList.map((e) => Recipe.fromJson(e)).toList();
+  }
+
+}
+
+class MockRecipeRepositoryImpl implements RecipeRepository{
   final _recipeData = {
     "recipes": [
       {

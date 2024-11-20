@@ -6,7 +6,7 @@ import '../data/recipe_repository.dart';
 
 class RecipeListViewModel with ChangeNotifier {
   //mixin concept
-  final RecipeRepository _repository = RecipeRepository();
+  final RecipeRepository _repository;
   RecipeListState _state = RecipeListState(
     recipes: [],
     isLoading: false,
@@ -14,7 +14,7 @@ class RecipeListViewModel with ChangeNotifier {
 
   RecipeListState get state => _state;
 
-  RecipeListViewModel() {
+  RecipeListViewModel(this._repository) {
     loadData();
   }
 
