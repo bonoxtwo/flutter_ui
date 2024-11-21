@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ui/components/my_first_screen.dart';
 import 'package:flutter_ui/data/recipe_repository.dart';
 import 'package:flutter_ui/presentation/recipe_list_screen.dart';
 import 'package:flutter_ui/presentation/recipe_list_view_model.dart';
@@ -26,7 +25,12 @@ class MyApp extends StatelessWidget {
         // change notifier의 notice를 받아옴
         listenable: viewModel,
         builder: (context, widget) {
-          return RecipeListScreen(state: viewModel.state);
+          return RecipeListScreen(
+            state: viewModel.state,
+            onRefresh: () {
+              viewModel.loadData();
+            },
+          );
         },
       ),
     );
